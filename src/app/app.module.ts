@@ -2,25 +2,52 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
 import { AppRoutingModule } from './app-routing.module';
+import { LoginComponent } from './login/login.component';
+import { RegisterComponent } from './register/register.component';
+import { TodoListComponent } from './todo-list/todo-list.component';
+import { TodoDetailsComponent } from './todo-details/todo-details.component';
+import { MessagesComponent } from './messages/messages.component';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
+import { HeadersInterceptor } from './headers-interceptor';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { JwtHelperService, JwtModuleOptions, JwtModule } from '@auth0/angular-jwt';
+import { UserService } from './user.service';
+
 import { AppComponent } from './app.component';
-import { LoginComponentComponent } from './login-component/login-component.component';
-import { RegisterComponentComponent } from './register-component/register-component.component';
-import { TaskListComponentComponent } from './task-list-component/task-list-component.component';
-import { TodoDetailsComponentComponent } from './todo-details-component/todo-details-component.component';
+import { LogoutComponent } from './logout/logout.component';
+
+const jwtModuleOptions: JwtModuleOptions = {
+  config: {
+    tokenGetter: () => { return localStorage.getItem('token') },
+    whitelistedDomains: [ 'localhost:8000' ]
+  }
+} 
 
 @NgModule({
   declarations: [
     AppComponent,
-    LoginComponentComponent,
-    RegisterComponentComponent,
-    TaskListComponentComponent,
-    TodoDetailsComponentComponent
+    LoginComponent,
+    RegisterComponent,
+    TodoListComponent,
+    TodoDetailsComponent,
+    MessagesComponent,
+    LogoutComponent,
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    ReactiveFormsModule,
+    JwtModule.forRoot(jwtModuleOptions),
+    HttpClientModule
   ],
-  providers: [],
+  providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: HeadersInterceptor,
+      multi: true
+    },
+
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
