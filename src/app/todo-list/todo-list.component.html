@@ -1,3 +1,31 @@
-<p>
-  todo-list-component works!
-</p>
+<div>
+  <div>
+    <app-todo-details [todo]="newTodo"></app-todo-details>
+    <button (click)="addTodo()">Add new todo</button>
+  </div>
+  <ul>
+    <li *ngFor="let todo of todos">
+      <div>
+        <h4 (click)="selectTodo(todo)">{{todo.title}}</h4>
+        <div>
+            <label for="checkbox-done">Done: </label>
+            <input type="checkbox" [checked]="todo.done" (change)="toggleDone(todo)" name="checkbox-done">
+        </div>
+        <div>
+          <label for="select-priority">Priority: </label>
+          <select [value]="todo.priority" (change)="setPriority(todo, $event.target.value)" name="select-priority">
+              <option *ngFor="let val of priorityValues" value={{val}}>
+                  {{val}}
+              </option>
+          </select>
+        </div>
+
+        <button (click)="deleteTodo(todo)">X</button>
+      </div>
+    </li>
+  </ul>
+  <div *ngIf="selectedTodo">
+      <app-todo-details [todo]="selectedTodo"></app-todo-details>
+      <button (click)="cancelEditingTodo()">Cancel</button>
+  </div>
+</div>

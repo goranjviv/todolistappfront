@@ -1,3 +1,9 @@
-<p>
-  todo-details-component works!
-</p>
+<div>
+  <label>Title:
+    <input [(ngModel)]="todo.title" placeholder="title">
+  </label>
+  <label>Text:
+    <input [(ngModel)]="todo.text" placeholder="text">
+  </label>
+  <button *ngIf="todo.id !== -55" (click)="updateTodo()">Save</button>
+</div>

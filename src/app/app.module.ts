@@ -14,6 +14,7 @@ import { JwtHelperService, JwtModuleOptions, JwtModule } from '@auth0/angular-jw
 import { UserService } from './user.service';
 
 import { AppComponent } from './app.component';
+import { FailedAuthInterceptor } from './failed-auth-interceptor';
 
 const jwtModuleOptions: JwtModuleOptions = {
   config: {
@@ -36,12 +37,18 @@ const jwtModuleOptions: JwtModuleOptions = {
     AppRoutingModule,
     ReactiveFormsModule,
     JwtModule.forRoot(jwtModuleOptions),
-    HttpClientModule
+    HttpClientModule,
+    FormsModule
   ],
   providers: [
     {
       provide: HTTP_INTERCEPTORS,
       useClass: HeadersInterceptor,
+      multi: true
+    },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: FailedAuthInterceptor,
       multi: true
     },
 

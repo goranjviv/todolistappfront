@@ -1,4 +1,7 @@
-<router-outlet>
+<nav>
     <a routerLink="/todos">Todos</a>
     <button *ngIf="userService.isLoggedIn()" (click)="userService.logout()">Logout</button>
-</router-outlet>
+</nav>
+<router-outlet></router-outlet>
+<app-messages></app-messages>
+

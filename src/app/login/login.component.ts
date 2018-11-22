@@ -2,9 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, ReactiveFormsModule } from '@angular/forms';
 import { UserService } from '../user.service';
 import { Router } from '@angular/router';
+import { MessagesService } from '../messages.service';
 
 @Component({
-  selector: 'app-login-component',
+  selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
 })
@@ -13,7 +14,8 @@ export class LoginComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private userService: UserService,
-    private router: Router
+    private router: Router,
+    private messagesService: MessagesService
     ) {
       this.form = this.formBuilder.group({
         email: ['', Validators.required],
@@ -23,19 +25,16 @@ export class LoginComponent implements OnInit {
 
   login(): void {
     const val = this.form.value;
-    console.log();
 
     if(val.email !== "" && val.password !== "") {
-      console.log("doing the call");
       this.userService.login(val.email, val.password)
         .subscribe(
           () => {
-            console.log("ok");
+            this.messagesService.push("Login successful!");
             this.router.navigateByUrl('/');
-            console.log(this.userService.token);
           },
           error => {
-            console.log("err");
+            this.messagesService.push("Login unsuccessful!");
             this.router.navigateByUrl('/login');
           }
         );
