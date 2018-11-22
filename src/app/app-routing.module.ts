@@ -5,11 +5,9 @@ import { TodoListComponent } from '../app/todo-list/todo-list.component';
 import { TodoDetailsComponent } from '../app/todo-details/todo-details.component';
 import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
-import { LogoutComponent } from './logout/logout.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
-  { path: 'logout', component: LogoutComponent, canActivate: [AuthGuardService]  },
   { path: 'register', component:RegisterComponent, canActivate: [AuthGuardService]  },
   { path: 'todos', component: TodoListComponent, canActivate: [AuthGuardService]  },
   { path: 'todos/:id', component: TodoDetailsComponent, canActivate: [AuthGuardService]  },

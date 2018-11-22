@@ -21,7 +21,8 @@ export class HeadersInterceptor implements HttpInterceptor {
         let request = req.clone({
             url: serviceurl + req.url,
             setHeaders: {
-                Authorization: `Bearer ${this.userService.token}`,
+                //ovo mogu da uklonim jer jwtInterceptor ovo odradjuje
+                //Authorization: `Bearer ${this.userService.token}`,
                 ContentType: 'application/json',
                 Accept: 'application/json',
             }

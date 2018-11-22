@@ -1,5 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { NgModule, Inject } from '@angular/core';
 
 import { AppRoutingModule } from './app-routing.module';
 import { LoginComponent } from './login/login.component';
@@ -14,7 +14,6 @@ import { JwtHelperService, JwtModuleOptions, JwtModule } from '@auth0/angular-jw
 import { UserService } from './user.service';
 
 import { AppComponent } from './app.component';
-import { LogoutComponent } from './logout/logout.component';
 
 const jwtModuleOptions: JwtModuleOptions = {
   config: {
@@ -31,7 +30,6 @@ const jwtModuleOptions: JwtModuleOptions = {
     TodoListComponent,
     TodoDetailsComponent,
     MessagesComponent,
-    LogoutComponent,
   ],
   imports: [
     BrowserModule,

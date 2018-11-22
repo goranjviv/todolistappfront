@@ -4,7 +4,7 @@ import { JwtHelperService } from '@auth0/angular-jwt';
 import { HttpClient } from '@angular/common/http';
 import { LoginResponse } from './login-response';
 import { tap } from 'rxjs/operators';
-import { getLocaleNumberSymbol } from '@angular/common';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
@@ -17,9 +17,11 @@ export class UserService {
   get userEmail() {
     return localStorage.getItem('userEmail');
   }
+
   constructor(
     private jwtHelperService: JwtHelperService,
-    private httpClient: HttpClient
+    private httpClient: HttpClient,
+    private router: Router
     ) {
       localStorage.setItem('token', '');
       localStorage.setItem('userEmail', ''); 
@@ -46,6 +48,7 @@ export class UserService {
     //jednostavno obrisi _token
     localStorage.setItem('token', '');
     localStorage.setItem('userEmail', '');
+    this.router.navigate(['login']);
   }
 
   register(): Observable<any> {
@@ -57,10 +60,9 @@ export class UserService {
 
   isLoggedIn(): boolean {
     console.log('is logged in');
-    if (this.token !== '' && !this.jwtHelperService.isTokenExpired(this.token)) {
-      return true;
-    } else {
-      return false;
-    }
+    //token ce biti inicijalizovan prilikom pokretanja aplikacije, 
+    //pre bilo kakve provere rute
+    return !this.jwtHelperService.isTokenExpired(this.token);
   }
+
 }
