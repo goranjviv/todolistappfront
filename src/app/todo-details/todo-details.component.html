@@ -1,10 +1,29 @@
 <div>
-  <label>Title:
-    <input [(ngModel)]="todo.title" placeholder="title">
-  </label>
-  <label>Text:
-    <input [(ngModel)]="todo.text" placeholder="text">
-  </label>
-  <button *ngIf="todo.id !== -55" (click)="updateTodo()">Save</button>
-  <button *ngIf="todo.id !== -55" (click)="cancelEditingTodo()">Cancel</button>
+
+  <h4 (click)="toggleEditingTodo()">{{todo.title}}</h4>
+
+  <div [hidden]="!isBeingEdited">
+      <div>
+        <label for="title-input">Title:</label>
+        <input [(ngModel)]="todo.title" placeholder="title" name="title-input">
+      </div>
+      <div>
+        <label for="text-input">Text:</label>
+        <input [(ngModel)]="todo.text" placeholder="text" name="title-input">
+      </div>
+      <div>
+          <label for="checkbox-done">Done: </label>
+          <input type="checkbox" [checked]="todo.done" (change)="toggleDone()" name="checkbox-done">
+      </div>
+      <div>
+        <label for="select-priority">Priority: </label>
+        <select [value]="todo.priority" (change)="setPriority($event.target.value)" name="select-priority">
+            <option *ngFor="let val of priorityValues" value={{val}}>
+                {{val}}
+            </option>
+        </select>
+      </div>
+      <button (click)="updateTodo()">Save</button>
+      <button (click)="cancelEditingTodo()">Cancel</button>
+  </div>
 </div>

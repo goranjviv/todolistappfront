@@ -11,21 +11,27 @@ import { MessagesService } from '../messages.service';
 })
 export class TodoDetailsComponent implements OnInit {
 
-  @HostBinding('hidden')
-  isHidden:boolean = false;
+  priorityValues: number[] = [1,2,3];
 
-  private _todo: Todo;
+  private isBeingEdited: boolean;
+
+  private _todo: Todo = new Todo();
   @Input()
   set todo(todo) {
+    //zbog otvaranja drugog todoa bez cuvanja
+    //da bi se detalji vratili na staro
+    this._todo.title = this.oldTodo.title;
+    this._todo.text = this.oldTodo.text;
+
     this._todo = todo;
-    this.oldTodo = new Todo(this.todo);
-    this.isHidden = false;
+    this.oldTodo = new Todo(todo);
+    this.isBeingEdited = false;
   }
   get todo() {
     return this._todo;
   }
 
-  private oldTodo: Todo;
+  private oldTodo: Todo = new Todo();
 
   constructor(
     private todoService: TodoService,
@@ -61,10 +67,41 @@ export class TodoDetailsComponent implements OnInit {
     }
   }
 
+  setPriority(priority: number): void {
+    this.todo.priority = priority;
+    this.todoService.updateTodo(this.todo).subscribe(
+      () => {
+        this.messagesService.push("Todo priority updated!");
+        this.oldTodo.priority = priority;
+      },
+      error => {
+        this.messagesService.push("Todo priority updating failed!");
+        this.todo.priority = this.oldTodo.priority;
+      }
+    );
+  }
+
+  toggleDone(): void {
+    this.todo.done = !this.todo.done;
+    this.todoService.updateTodo(this.todo).subscribe(
+      () => {
+        this.messagesService.push("Toggling 'done' succeeded!");
+      },
+      error => {
+        this.messagesService.push("Toggling 'done' failed!");
+        this.todo.done = !this.todo.done;
+      }
+    );
+  }
+
+  toggleEditingTodo(): void {
+    this.isBeingEdited = !this.isBeingEdited;
+  }
+
   cancelEditingTodo(): void {
     this.todo.title = this.oldTodo.title;
     this.todo.text = this.oldTodo.text;
-    this.isHidden = true;
+    this.isBeingEdited = false;
   };
 
   ngOnInit() {
