@@ -72,13 +72,6 @@ export class TodoListComponent implements OnInit {
     this.selectedTodo = todo;
   }
 
-  cancelEditingTodo(): void {
-    console.log(this.selectedTodo, this.oldTodo);
-    this.selectedTodo.title = this.oldTodo.title;
-    this.selectedTodo.text = this.oldTodo.text;
-    this.oldTodo = null;
-    this.selectedTodo = null;
-  };
 
   setPriority(todo: Todo, priority: number): void {
     let oldPriority = todo.priority;

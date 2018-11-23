@@ -6,4 +6,5 @@
     <input [(ngModel)]="todo.text" placeholder="text">
   </label>
   <button *ngIf="todo.id !== -55" (click)="updateTodo()">Save</button>
+  <button *ngIf="todo.id !== -55" (click)="cancelEditingTodo()">Cancel</button>
 </div>

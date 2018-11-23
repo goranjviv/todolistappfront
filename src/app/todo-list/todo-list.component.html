@@ -19,13 +19,11 @@
               </option>
           </select>
         </div>
-
         <button (click)="deleteTodo(todo)">X</button>
+        <div *ngIf="selectedTodo === todo">
+            <app-todo-details [todo]="selectedTodo"></app-todo-details>
+        </div>
       </div>
     </li>
   </ul>
-  <div *ngIf="selectedTodo">
-      <app-todo-details [todo]="selectedTodo"></app-todo-details>
-      <button (click)="cancelEditingTodo()">Cancel</button>
-  </div>
 </div>
